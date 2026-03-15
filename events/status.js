@@ -1,15 +1,18 @@
+const { PresenceUpdateStatus, ActivityType } = require("discord.js");
+
 module.exports = {
-    name: "ready",
-    runOnce: true,
-    run: async (cl) => {
-        cl.user.setPresence({
-            status: PresenceUpdateStatus.Online,
-            activities: [
-              {
-                name: "hguhgdughusfgai",
-                type: 4
-              }
-            ]
-        });
-    }
-}
+  name: "ready",
+  runOnce: true,
+  run: async (client) => {
+    client.user.setPresence({
+      status: PresenceUpdateStatus.Online,
+      activities: [
+        {
+          type: ActivityType.Custom,
+          state: "hguhgdughusfgai",
+          emoji: "🔥"
+        }
+      ]
+    })
+  }
+};

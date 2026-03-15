@@ -9,9 +9,12 @@ function parseCLI(str) {
 
   return args;
 }
+const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 const { RestrictionsEnum } = require("../commandAccessRestrictions.js")
 module.exports = {
   accessRestriction: RestrictionsEnum.DISCORD_PERMISSION,
-  accessRestrictionArgs: "",
-  name: "announce"
+  accessRestrictionArgs: PermissionsBitField.Flags.ManageMessages,
+  name: "announce",
+  help_string: "<announcement_title> <announcement_content> <announcement_footer> - Sends an announcement in the channel where the command was ran. Your command is deleted after. Requires Manage Messages."
+  run: async (msg, argv, cl)=>{}
 }

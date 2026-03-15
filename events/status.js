@@ -1,7 +1,7 @@
 const { PresenceUpdateStatus, ActivityType } = require("discord.js");
 
 module.exports = {
-  name: "ready",
+  type: "ready",
   runOnce: true,
   run: async (client) => {
     client.user.setPresence({

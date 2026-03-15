@@ -15,6 +15,10 @@ module.exports = {
   accessRestriction: RestrictionsEnum.DISCORD_PERMISSION,
   accessRestrictionArgs: PermissionsBitField.Flags.ManageMessages,
   name: "announce",
-  help_string: "<announcement_title> <announcement_content> <announcement_footer> - Sends an announcement in the channel where the command was ran. Your command is deleted after. Requires Manage Messages."
-  run: async (msg, argv, cl)=>{}
+  help_string: "<announcement_title> <announcement_content> - Sends an announcement in the channel where the command was ran. Your command is deleted after. Requires Manage Messages."
+  run: async (msg, argv, cl) => {
+    argv = parseCLI(msg.content).slice(1)
+    ch = msg.channel
+    await msg.delete();
+  }
 }

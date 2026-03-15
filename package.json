@@ -3,14 +3,18 @@
     "discord.js": "^14.25.1",
     "node-fetch": "^3.3.2"
   },
-  "name": "tidalwave",
+  "name": "td_discord_bot",
   "version": "1.0.0",
   "main": "main.js",
   "devDependencies": {
     "nodemon": "^3.1.14"
   },
   "scripts": {
-    "start": "nodemon -V"
+    "start": "nohup nodemon -V &",
+    "log": "tail -f nohup.out",
+    "stop": "pkill -f node",
+    "test_syntax": "node check-js-syntax.js captureLog",
+    "update": "git pull origin main && npm install -y"
   },
   "keywords": [],
   "author": "",

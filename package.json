@@ -3,7 +3,7 @@
     "discord.js": "^14.25.1",
     "node-fetch": "^3.3.2"
   },
-  "name": "tidalwave",
+  "name": "td_discord_bot",
   "version": "1.0.0",
   "main": "main.js",
   "devDependencies": {

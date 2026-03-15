@@ -19,11 +19,13 @@ module.exports = {
   run: async (msg, argv, cl) => {
     argv = parseCLI(msg.content).slice(1)
     const ch = msg.channel;
+    const at = msg.author.tag;
     await msg.delete();
     const embed = new EmbedBuilder()
       .setTitle("📬 Announcement - "+argv[0])
       .setDescription(argv[1])
       .setColor(0x00ff00)
+      .setFooter({text:"Announced by "+at})
 
     ch.send({embeds:[embed], content: argv[2]=="true" ? "|| @everyone ||" : "|| Ping disabled ||")
   }

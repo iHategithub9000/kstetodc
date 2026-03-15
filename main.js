@@ -21,8 +21,7 @@ client.once('ready', () => {
 });
 
 client.on('messageCreate', async (message) => {
-  if (!message.guild) return;
-  if (message.author.bot) return;
+  if (!message.guild) return;
   if (!message.content.startsWith(require("./prefix.json"))) return;
   const argv = message.content.split(" ");
   const command = argv[0].toLowerCase();

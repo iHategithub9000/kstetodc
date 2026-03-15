@@ -1,5 +1,5 @@
 module.exports = {
-    name: "guildCreate",
+    type: "guildCreate",
     runOnce: false,
     run: async (_, cl) => {
         cl.guilds.cache.forEach(async g => {

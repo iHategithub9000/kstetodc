@@ -27,7 +27,7 @@ module.exports = {
 
     run: async (msg, argv, cl) => {
 
-        const action = argv[0];
+        const action = argv[1];
         const data = reactions[action];
 
         if (!data) {

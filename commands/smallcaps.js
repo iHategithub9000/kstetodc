@@ -24,6 +24,6 @@ module.exports = {
     name: "smallcaps",
     help_string: "<string> - smallcapsifies string. pretty!",
     run: async (msg, argv, cl) => {
-        msg.reply(toSmallCaps(argv.slice(1).join("")))
+        msg.reply(toSmallCaps(argv.slice(1).join(" ")))
     }
 }

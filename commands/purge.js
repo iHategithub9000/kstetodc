@@ -23,11 +23,11 @@ module.exports = {
               await new Promise(r => setTimeout(r, 1000)); // avoid rate limits
             }
                         const embed = new EmbedBuilder()
-            .setTitle(":trash: Purge completed.")
+            .setTitle(":broom: Purge completed.")
             .setFooter({text:"Purge requested by "+auth})
             .setColor(0x00ff00)
             for (let i = 0; i < 10; i++) {
-              await ch.send("_ _\n".repeat(200))
+              await ch.send(":broom:"+("\n".repeat(200))+":broom:")
             }
             await ch.send({embeds:[embed]})
         } catch (e) {

@@ -2,31 +2,46 @@ const { RestrictionsEnum } = require("../commandAccessRestrictions.js");
 const { EmbedBuilder } = require('discord.js');
 const os = require('os');
 
+// helper to format seconds → "xh ym zs"
+function formatTime(totalSeconds) {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = Math.floor(totalSeconds % 60);
+    return `${hours}h ${minutes}m ${seconds}s`;
+}
+
 module.exports = {
     accessRestriction: RestrictionsEnum.NONE,
     accessRestrictionArgs: 0,
     name: "uptime",
     help_string: "- shows bot uptime",
     run: async (msg, argv, cl) => {
-        // Bot uptime (convert ms → s)
-        const botUptimeSec = cl.uptime / 1000;
-        const botHours = Math.floor(botUptimeSec / 3600);
-        const botMinutes = Math.floor((botUptimeSec % 3600) / 60);
-        const botSeconds = Math.floor(botUptimeSec % 60);
 
-        // Machine uptime (in seconds)
+        const FOUR_MONTHS_SEC = 120 * 24 * 60 * 60;
+
+        // ---- UPTIMES ----
+        const botUptimeSec = cl.uptime / 1000;
         const machineUptimeSec = os.uptime();
-        const machHours = Math.floor(machineUptimeSec / 3600);
-        const machMinutes = Math.floor((machineUptimeSec % 3600) / 60);
-        const machSeconds = Math.floor(machineUptimeSec % 60);
+
+        // ---- PERCENT CALC ----
+        let botPercent = Math.min((botUptimeSec / FOUR_MONTHS_SEC) * 100, 100);
+        let machinePercent = Math.min((machineUptimeSec / FOUR_MONTHS_SEC) * 100, 100);
+
+        botPercent = botPercent.toFixed(2);
+        machinePercent = machinePercent.toFixed(2);
 
         const embed = new EmbedBuilder()
             .setTitle('⏱ Uptime Info')
             .setColor(0x00FF00)
             .setDescription(
-                `**Bot Uptime:** ${botHours}h ${botMinutes}m ${botSeconds}s\n` +
-                `**Machine Uptime:** ${machHours}h ${machMinutes}m ${machSeconds}s`
-            );
+                `**Bot uptime:** ${formatTime(botUptimeSec)}\n` +
+                `**Machine uptime:** ${formatTime(machineUptimeSec)}\n\n` +
+                `**Bot is up:** ${botPercent}% of 4 months\n` +
+                `**Machine is up:** ${machinePercent}% of 4 months`
+            )
+            .setFooter({
+                text: "Bot uptime - amount of time bot is connected to Discord\nMachine uptime - amount of time the computer running the bot is up"
+            });
 
         msg.reply({ embeds: [embed] }).catch(() => {});
     }

@@ -17,15 +17,16 @@ module.exports = {
     help_string: "- shows bot uptime",
     run: async (msg, argv, cl) => {
 
-        const FOUR_MONTHS_SEC = 120 * 24 * 60 * 60;
+        // ---- CONSTANT: 1 month (30 days) ----
+        const ONE_MONTH_SEC = 30 * 24 * 60 * 60;
 
         // ---- UPTIMES ----
         const botUptimeSec = cl.uptime / 1000;
         const machineUptimeSec = os.uptime();
 
         // ---- PERCENT CALC ----
-        let botPercent = Math.min((botUptimeSec / FOUR_MONTHS_SEC) * 100, 100);
-        let machinePercent = Math.min((machineUptimeSec / FOUR_MONTHS_SEC) * 100, 100);
+        let botPercent = Math.min((botUptimeSec / ONE_MONTH_SEC) * 100, 100);
+        let machinePercent = Math.min((machineUptimeSec / ONE_MONTH_SEC) * 100, 100);
 
         botPercent = botPercent.toFixed(2);
         machinePercent = machinePercent.toFixed(2);
@@ -36,8 +37,8 @@ module.exports = {
             .setDescription(
                 `**Bot uptime:** ${formatTime(botUptimeSec)}\n` +
                 `**Machine uptime:** ${formatTime(machineUptimeSec)}\n\n` +
-                `**Bot is up:** ${botPercent}% of 4 months\n` +
-                `**Machine is up:** ${machinePercent}% of 4 months`
+                `**Bot is up:** ${botPercent}% of 1 month\n` +
+                `**Machine is up:** ${machinePercent}% of 1 month`
             )
             .setFooter({
                 text: "Bot uptime - amount of time bot is connected to Discord\nMachine uptime - amount of time the computer running the bot is up"

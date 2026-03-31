@@ -42,10 +42,23 @@ module.exports = {
             }
 
             // 🔗 YouTube URL
-            else if (play.yt_validate(query) === "video") {
-                stream = await play.stream(query);
-                const info = await play.video_info(query);
-                trackTitle = info.video_details.title;
+            if (play.yt_validate(query) === "video") {
+                try {
+                    // stream + info
+                    const streamInfo = await play.stream(query);
+                    stream = streamInfo;
+                    const info = await play.video_info(query);
+                    trackTitle = info.video_details.title;
+                } catch (err) {
+                    return msg.reply({
+                        embeds: [
+                            new EmbedBuilder()
+                                .setTitle("Error")
+                                .setDescription("Failed to load YouTube video")
+                                .setColor("#FF0000")
+                        ]
+                    });
+                }
             }
 
             // 🔗 Spotify URL

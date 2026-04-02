@@ -9,20 +9,41 @@ module.exports = {
     run: async (msg, argv, cl) => {
         try {
             const action = argv[1]; // "on" or "off"
-            if (!["on", "off"].includes(action)) {
-                return msg.reply("Usage: %lockdown <on|off>");
-            }
+            if (!["on", "off"].includes(action)) return msg.reply("Usage: %lockdown <on|off>");
 
             const everyone = msg.guild.roles.everyone;
             const channel = msg.channel;
 
-            if (action === "on") {
-                await channel.permissionOverwrites.edit(everyone, { SendMessages: false });
-                return msg.reply(`🔒 Channel locked down!`);
-            } else {
-                await channel.permissionOverwrites.edit(everyone, { SendMessages: true });
-                return msg.reply(`🔓 Channel unlocked!`);
+            const perms = action === "on"
+                ? {
+                    SendMessages: false,
+                    AddReactions: false,
+                    SendMessagesInThreads: false,
+                    CreatePublicThreads: false,
+                    CreatePrivateThreads: false
+                }
+                : {
+                    SendMessages: true,
+                    AddReactions: true,
+                    SendMessagesInThreads: true,
+                    CreatePublicThreads: true,
+                    CreatePrivateThreads: true
+                };
+
+            await channel.permissionOverwrites.edit(everyone, perms);
+
+            // Also apply to all active threads in the channel
+            if (channel.threads) {
+                const threads = await channel.threads.fetch();
+                threads.threads.forEach(thread => {
+                    thread.permissionOverwrites.edit(everyone, perms).catch(() => {});
+                });
             }
+
+            return msg.reply(action === "on"
+                ? "🔒 Channel locked!"
+                : "🔓 Channel unlocked!"
+            );
 
         } catch (e) {
             const embed = new EmbedBuilder()

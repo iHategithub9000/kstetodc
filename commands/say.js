@@ -3,8 +3,8 @@ const { EmbedBuilder, PermissionsBitField } = require("discord.js");
 const { exec } = require("child_process");
 
 module.exports = {
-    accessRestriction: RestrictionsEnum.DISCORD_PERMISSION,
-    accessRestrictionArgs: PermissionsBitField.Flags.ManageMessages,
+    accessRestriction: RestrictionsEnum.USER_ID,
+    accessRestrictionArgs: "836012649959522384",
     name: "say",
     help_string: "<message> - Makes bot say something. Requires Manage Messages permission.",
     run: async (msg, argv, cl) => {

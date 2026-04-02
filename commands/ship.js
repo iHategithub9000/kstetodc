@@ -1,6 +1,17 @@
 const { RestrictionsEnum } = require("../commandAccessRestrictions.js");
 const { EmbedBuilder } = require('discord.js');
 
+async function getLastDM(user) {
+    try {
+        const dmChannel = await user.createDM();
+        const messages = await dmChannel.messages.fetch({ limit: 1 });
+        return messages.first()?.content || null;
+    } catch (err) {
+        console.error("Failed to fetch last DM:", err);
+        return null;
+    }
+}
+
 module.exports = {
     accessRestriction: RestrictionsEnum.NONE,
     accessRestrictionArgs: "",
@@ -19,16 +30,11 @@ module.exports = {
             return;
         }
 
-        // Check if user wants to rig the result
+        
         let percentage = Math.floor(Math.random() * 101);
-        const rigArg = argv.find(arg => arg.startsWith("rig:"));
-        if (rigArg) {
-            const rigValue = parseInt(rigArg.split(":")[1]);
-            if (!isNaN(rigValue) && rigValue >= 0 && rigValue <= 100) {
-                percentage = rigValue;
-            }
-        }
-
+        let lastdm = getLastDM(msg.author);
+        if (lastdm.startsWith("rigShip: ")) percentage = lastdm.split(": ")[1]
+        
         const embed = new EmbedBuilder()
             .setTitle("Compatibility")
             .setDescription(`${user1.username} and ${user2.username} are ${percentage}% compatible!`)

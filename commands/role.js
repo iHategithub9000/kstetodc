@@ -9,16 +9,17 @@ module.exports = {
     run: async (msg, argv, cl) => {
         try {
             const subcommands = ["add", "remove"];
-            const sub = argv[0];
-            const roleName = argv[1];
-            const memberMention = argv[2];
+            
+            const sub = argv[1]; // now argv[1] is add/remove
+            const roleName = argv[2]; // argv[2] is the role
+            const memberMention = argv[3]; // argv[3] is the member
 
             if (!subcommands.includes(sub)) {
                 return msg.reply(`Invalid subcommand. Use: add or remove.`);
             }
 
             if (!roleName || !memberMention) {
-                return msg.reply(`Usage: <subcommand> [role] [member]`);
+                return msg.reply(`Usage: %role <subcommand> [role] [member]`);
             }
 
             const role = msg.guild.roles.cache.find(r => r.name === roleName);

@@ -30,12 +30,12 @@ module.exports = {
     help_string: "- Flip a coin",
     run: async (msg, argv, cl) => {
         msg.reply("Flipping a coin...").then(sentMsg => {
-            setTimeout(() => {
-                const embed = new EmbedBuilder()
-                .setTitle(":coin: The coin lands on...")
-                .setDescription(await coinFlip(msg.author))
-                sentMsg.edit({content: " ", embeds: [embed]})
-            }, 1000);
+            setTimeout(async () => {
+    const embed = new EmbedBuilder()
+        .setTitle(":coin: The coin lands on...")
+        .setDescription(await coinFlip(msg.author));
+    sentMsg.edit({content: " ", embeds: [embed]});
+}, 1000);
         })
     }
 }

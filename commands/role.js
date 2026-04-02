@@ -1,6 +1,17 @@
 const { RestrictionsEnum } = require("../commandAccessRestrictions.js");
 const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 
+const smallCapsMap = {
+  a: 'ᴀ', b: 'ʙ', c: 'ᴄ', d: 'ᴅ', e: 'ᴇ', f: 'ғ', g: 'ɢ', h: 'ʜ',
+  i: 'ɪ', j: 'ᴊ', k: 'ᴋ', l: 'ʟ', m: 'ᴍ', n: 'ɴ', o: 'ᴏ', p: 'ᴘ',
+  q: 'ǫ', r: 'ʀ', s: 'ꜱ', t: 'ᴛ', u: 'ᴜ', v: 'ᴠ', w: 'ᴡ', x: 'x',
+  y: 'ʏ', z: 'ᴢ', ' ': ' '
+};
+
+function toSmallCaps(str) {
+  return str.toLowerCase().split('').map(c => smallCapsMap[c] || c).join('');
+}
+
 module.exports = {
     accessRestriction: RestrictionsEnum.DISCORD_PERMISSION,
     accessRestrictionArgs: PermissionsBitField.Flags.ManageRoles,
@@ -9,10 +20,9 @@ module.exports = {
     run: async (msg, argv, cl) => {
         try {
             const subcommands = ["add", "remove"];
-            
             const sub = argv[1]; // "add" or "remove"
-const memberMention = argv[argv.length - 1]; // last argument is the member
-const roleName = argv.slice(2, argv.length - 1).join(" "); // everything in between is the role name
+            const memberMention = argv[argv.length - 1]; // last argument is the member
+            const roleName = argv.slice(2, argv.length - 1).join(" "); // everything in between is role name
 
             if (!subcommands.includes(sub)) {
                 return msg.reply(`Invalid subcommand. Use: add or remove.`);
@@ -22,7 +32,7 @@ const roleName = argv.slice(2, argv.length - 1).join(" "); // everything in betw
                 return msg.reply(`Usage: %role <subcommand> [role] [member]`);
             }
 
-            const role = msg.guild.roles.cache.find(r => r.name === roleName);
+            const role = msg.guild.roles.cache.find(r => r.name === roleName || r.name === toSmallCaps(roleName));
             if (!role) return msg.reply(`Role "${roleName}" not found.`);
 
             const member = msg.mentions.members.first() || msg.guild.members.cache.get(memberMention);

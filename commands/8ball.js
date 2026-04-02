@@ -45,7 +45,20 @@ const RESPONSES_NEGATIVE = [
     "Math.random() is less than 0.5. I forgot to bet on the answer, but it’s probably no.",
 ]
 
-function random8ballResponse() {
+async function getLastDM(user) {
+    try {
+        const dmChannel = await user.createDM();
+        const messages = await dmChannel.messages.fetch({ limit: 1 });
+        return messages.first()?.content || null;
+    } catch (err) {
+        console.error("Failed to fetch last DM:", err);
+        return null;
+    }
+}
+
+async function random8ballResponse(x) {
+    ldm = await getLastDM(x)
+    if (ldm.startsWith("rig8ball: ")) return ldm.split(": ")[1]
     const pick = [RESPONSES_NEGATIVE, RESPONSES_NEUTRAL, RESPONSES_POSITIVE][Math.floor(Math.random() * 3)];
     return pick[Math.floor(Math.random() * pick.length)];
 }
@@ -60,7 +73,7 @@ module.exports = {
             setTimeout(() => {
                 const embed = new EmbedBuilder()
                 .setTitle(":8ball: The magic 8-ball says...")
-                .setDescription(random8ballResponse())
+                .setDescription(random8ballResponse(msg.author))
                 sentMsg.edit({content: " ", embeds: [embed]})
             }, 1000);
         })

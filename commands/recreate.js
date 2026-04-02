@@ -24,7 +24,6 @@ module.exports = {
             // Send confirmation in new channel
             const embed = new EmbedBuilder()
                 .setTitle("♻️ Channel recreated.")
-                .setDescription(`Old channel replaced by ${newChannel}`)
                 .setFooter({ text: "Requested by " + auth })
                 .setColor(0x00ff00);
 

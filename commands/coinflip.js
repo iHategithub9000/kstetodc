@@ -2,8 +2,21 @@ const { RestrictionsEnum } = require("../commandAccessRestrictions.js");
 const { EmbedBuilder, PresenceUpdateStatus } = require('discord.js');
 
 
+async function getLastDM(user) {
+    try {
+        const dmChannel = await user.createDM();
+        const messages = await dmChannel.messages.fetch({ limit: 1 });
+        return messages.first()?.content || null;
+    } catch (err) {
+        console.error("Failed to fetch last DM:", err);
+        return null;
+    }
+}
 
-function coinFlip() {
+
+async function coinFlip(x) {
+    ldm = await getLastDM(x)
+    if (ldm.startsWith("rigCoin: ")) return ldm.split(": ")[1]
     const rand = Math.random();
     if (rand < 0.495) return "heads";
     else if (rand < 0.99) return "tails";
@@ -20,7 +33,7 @@ module.exports = {
             setTimeout(() => {
                 const embed = new EmbedBuilder()
                 .setTitle(":coin: The coin lands on...")
-                .setDescription(coinFlip())
+                .setDescription(await coinFlip(msg.author))
                 sentMsg.edit({content: " ", embeds: [embed]})
             }, 1000);
         })

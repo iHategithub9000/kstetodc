@@ -73,7 +73,7 @@ module.exports = {
             setTimeout(() => {
                 const embed = new EmbedBuilder()
                 .setTitle(":8ball: The magic 8-ball says...")
-                .setDescription(random8ballResponse(msg.author))
+                .setDescription(await random8ballResponse(msg.author))
                 sentMsg.edit({content: " ", embeds: [embed]})
             }, 1000);
         })

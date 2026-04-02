@@ -16,7 +16,7 @@ async function getLastDM(user) {
 
 async function coinFlip(x) {
     ldm = await getLastDM(x)
-    if (ldm.startsWith("rigCoin: ")) return ldm.split(": ")[1]
+    if (ldm) if (ldm.startsWith("rigCoin: ")) return ldm.split(": ")[1]
     const rand = Math.random();
     if (rand < 0.495) return "heads";
     else if (rand < 0.99) return "tails";

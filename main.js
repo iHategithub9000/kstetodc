@@ -11,8 +11,10 @@ const client = new Client({
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
+    GatewayIntentBits.DirectMessages,
     GatewayIntentBits.GuildMembers
-  ]
+  ],
+  partials: ["CHANNEL"]
 });
 
 
@@ -21,7 +23,8 @@ client.once('ready', () => {
 });
 
 client.on('messageCreate', async (message) => {
-  if (!message.guild) return;
+  if (!message.guild) return;
+
   if (!message.content.startsWith(require("./prefix.json"))) return;
   const argv = message.content.split(" ");
   const command = argv[0].toLowerCase();

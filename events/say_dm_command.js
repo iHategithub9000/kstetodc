@@ -1,7 +1,7 @@
 module.exports = {
   type: "messageCreate",
   runOnce: false,
-  run: async (message) => {
+  run: async (client, message) => {
     // Ignore bots
     if (message.author.bot) return;
 

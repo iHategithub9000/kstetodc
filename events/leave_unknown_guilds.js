@@ -3,7 +3,7 @@ module.exports = {
     runOnce: false,
     run: async (_, cl) => {
         cl.guilds.cache.forEach(async g => {
-            if (require("allowedguildids.json").includes(g.id)) return;
+            if (require("../allowedguildids.json").includes(g.id)) return;
 
             const firstChatable = g.channels.cache
                 .filter(c =>

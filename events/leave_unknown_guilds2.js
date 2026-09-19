@@ -3,7 +3,7 @@ module.exports = {
     runOnce: true,
     run: async (_, cl) => {
         for (const g of cl.guilds.cache.values()) {
-            if (require("allowedguildids.json").includes(g.id)) continue;
+            if (require("../allowedguildids.json").includes(g.id)) continue;
 
             try {
                 const me = await g.members.fetchMe();

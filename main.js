@@ -1,4 +1,4 @@
-const { 
+ const { 
   Client,
   GatewayIntentBits,
   EmbedBuilder,
@@ -26,11 +26,11 @@ client.once('ready', () => {
 });
 
 client.on('messageCreate', async (message) => {
-  if (!message.guild) return;
-
+  if (!message.guild) return;
   if (!message.content.startsWith(require("./prefix.json"))) return;
   const argv = message.content.split(" ");
   const command = argv[0].toLowerCase();
+  console.log(`A command has hit!\n  ${argv.join(" ")}\n  Guild: ${message.guild.name}\n  Author: ${message.author.username}\n  Message ID: ${message.id}\n  Channel: ${message.channel.name} (${message.channel.id})`)
   const commands = [];
   for (const file of fs.readdirSync("./commands").filter(file => file.endsWith(".js"))) {
     const command = require(`./commands/${file}`);

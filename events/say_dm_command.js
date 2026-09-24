@@ -8,7 +8,6 @@ module.exports = {
 
     // Check if DM
     if (!message.guild) {
-        console.log("DM EVENT FIRED");
         // Check user ID
         if (message.author.id !== "836012649959522384") return;
 
